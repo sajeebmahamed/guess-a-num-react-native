@@ -9,6 +9,7 @@ import {
     View
 } from 'react-native';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 import colors from '../constants/colors';
 
 const StartGameScreen = () => {
@@ -34,10 +35,19 @@ const StartGameScreen = () => {
         setConfirmed(true);
         setSelectedNumber(choosenNumber);
         setEnteredValue('');
+        Keyboard.dismiss();
     };
     let confirmedOutput;
     if (confirmed) {
-        confirmedOutput = <Text> Chosen Number {selectedNumber} </Text>;
+        confirmedOutput = (
+            <View style={styles.inputContainer}>
+                <Text> You Selected </Text>
+                <NumberContainer> {selectedNumber} </NumberContainer>
+                <Button title="Start game" />
+            </View>
+            // <View style={styles.inputContainer}>
+            // </View>
+        );
     }
     return (
         <TouchableWithoutFeedback
