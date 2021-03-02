@@ -1,32 +1,46 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, Keyboard, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import Input from '../components/Input';
 import colors from '../constants/colors';
 
-const StartGameScreen = () => (
-    <View style={styles.screen}>
-        <Text style={styles.title}> Start A New Game </Text>
-        <View style={styles.inputContainer}>
-            <Text> Select A Number </Text>
-            <Input
-                style={styles.input}
-                blurOnSubmit
-                autoCapitalize="none"
-                autoCorrect={false}
-                keyboardType="numeric"
-                maxLength={2}
-            />
-            <View style={styles.buttonContainer}>
-                <View style={styles.button}>
-                    <Button style={styles.button} title="Reset" color={colors.accent} />
-                </View>
-                <View style={styles.button}>
-                    <Button style={styles.button} title="Confirm" color={colors.primary} />
+const StartGameScreen = () => {
+    const [enteredValue, setEnteredValue] = useState('');
+    const numberInputHandler = (inputText) => {
+        setEnteredValue(inputText.replace(/[^0-9]/g, ''));
+    };
+    return (
+        <TouchableWithoutFeedback
+            onPress={() => {
+                Keyboard.dismiss();
+            }}
+        >
+            <View style={styles.screen}>
+                <Text style={styles.title}> Start A New Game </Text>
+                <View style={styles.inputContainer}>
+                    <Text> Select A Number </Text>
+                    <Input
+                        style={styles.input}
+                        blurOnSubmit
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardType="numeric"
+                        maxLength={2}
+                        onChangeText={numberInputHandler}
+                        value={enteredValue}
+                    />
+                    <View style={styles.buttonContainer}>
+                        <View style={styles.button}>
+                            <Button style={styles.button} title="Reset" color={colors.accent} />
+                        </View>
+                        <View style={styles.button}>
+                            <Button style={styles.button} title="Confirm" color={colors.primary} />
+                        </View>
+                    </View>
                 </View>
             </View>
-        </View>
-    </View>
-);
+        </TouchableWithoutFeedback>
+    );
+};
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
