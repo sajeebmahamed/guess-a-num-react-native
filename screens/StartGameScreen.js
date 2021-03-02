@@ -5,9 +5,29 @@ import colors from '../constants/colors';
 
 const StartGameScreen = () => {
     const [enteredValue, setEnteredValue] = useState('');
+    const [confirmed, setConfirmed] = useState(false);
+    const [selectedNumber, setSelectedNumber] = useState();
     const numberInputHandler = (inputText) => {
         setEnteredValue(inputText.replace(/[^0-9]/g, ''));
     };
+    const resetInputHandler = () => {
+        setEnteredValue('');
+        setConfirmed(false);
+    };
+    const confirmInputHander = () => {
+        const choosenNumber = parseInt(enteredValue, 10);
+        /* eslint use-isnan: 0 */
+        if (choosenNumber === NaN || choosenNumber <= 0 || choosenNumber > 99) {
+            return;
+        }
+        setConfirmed(true);
+        setSelectedNumber(choosenNumber);
+        setEnteredValue('');
+    };
+    let confirmedOutput;
+    if (confirmed) {
+        confirmedOutput = <Text> Chosen Number {selectedNumber} </Text>;
+    }
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -30,13 +50,24 @@ const StartGameScreen = () => {
                     />
                     <View style={styles.buttonContainer}>
                         <View style={styles.button}>
-                            <Button style={styles.button} title="Reset" color={colors.accent} />
+                            <Button
+                                style={styles.button}
+                                title="Reset"
+                                color={colors.accent}
+                                onPress={resetInputHandler}
+                            />
                         </View>
                         <View style={styles.button}>
-                            <Button style={styles.button} title="Confirm" color={colors.primary} />
+                            <Button
+                                style={styles.button}
+                                title="Confirm"
+                                color={colors.primary}
+                                onPress={confirmInputHander}
+                            />
                         </View>
                     </View>
                 </View>
+                {confirmedOutput}
             </View>
         </TouchableWithoutFeedback>
     );
