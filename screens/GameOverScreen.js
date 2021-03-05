@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import MainButton from '../components/MainButton';
 
 const GameOverScreen = ({ userNumber, roundsNumber, onRestart }) => (
     /* eslint global-require: 0 */
@@ -14,7 +15,7 @@ const GameOverScreen = ({ userNumber, roundsNumber, onRestart }) => (
         </View>
         <Text> Number of rounds: {roundsNumber} </Text>
         <Text> Number was: {userNumber} </Text>
-        <Button title="NEW GAME" onPress={onRestart} />
+        <MainButton onPress={onRestart}> NEW GAME </MainButton>
     </View>
 );
 

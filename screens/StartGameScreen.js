@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
     Alert,
@@ -9,6 +10,7 @@ import {
     View
 } from 'react-native';
 import Input from '../components/Input';
+import MainButton from '../components/MainButton';
 import NumberContainer from '../components/NumberContainer';
 import colors from '../constants/colors';
 
@@ -43,7 +45,10 @@ const StartGameScreen = ({ onStartGame }) => {
             <View style={styles.inputContainer}>
                 <Text> You Selected </Text>
                 <NumberContainer> {selectedNumber} </NumberContainer>
-                <Button title="Start game" onPress={() => onStartGame(selectedNumber)} />
+                <MainButton onPress={() => onStartGame(selectedNumber)}>
+                    <Ionicons name="arrow-forward-circle-outline" size={24} color="white" />
+                    Start Game
+                </MainButton>
             </View>
             // <View style={styles.inputContainer}>
             // </View>

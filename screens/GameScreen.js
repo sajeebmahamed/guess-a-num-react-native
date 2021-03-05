@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Card from '../components/Card';
 import NumberContainer from '../components/NumberContainer';
 
@@ -15,9 +15,9 @@ const generateRandomBetween = (min, max, exclude) => {
 };
 
 const GameScreen = (props) => {
-    const [currentGuess, setCurrentGuess] = useState(
-        generateRandomBetween(1, 100, props.userChoice)
-    );
+    const initialGuess = generateRandomBetween(1, 100, props.userChoice);
+    const [currentGuess, setCurrentGuess] = useState(initialGuess);
+    const [pastGuess, setPastGuess] = useState([initialGuess]);
     const [rounds, setRounds] = useState(0);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
@@ -26,9 +26,9 @@ const GameScreen = (props) => {
 
     useEffect(() => {
         if (currentGuess === userChoice) {
-            onGameOver(rounds);
+            onGameOver(pastGuess.length);
         }
-    }, [currentGuess, userChoice, onGameOver, rounds]);
+    }, [currentGuess, userChoice, onGameOver, rounds, pastGuess.length]);
 
     const nextGuessHandler = (direction) => {
         if (
@@ -51,7 +51,8 @@ const GameScreen = (props) => {
             currentGuess
         );
         setCurrentGuess(nextNumber);
-        setRounds((curRounds) => curRounds + 1);
+        // setRounds((curRounds) => curRounds + 1);
+        setPastGuess((currentPastGuesses) => [nextNumber, ...currentPastGuesses]);
     };
 
     return (
@@ -62,6 +63,13 @@ const GameScreen = (props) => {
                 <Button title="LOWER" onPress={() => nextGuessHandler('lower')} />
                 <Button title="GREATER" onPress={() => nextGuessHandler('greater')} />
             </Card>
+            <ScrollView>
+                {pastGuess.map((guess) => (
+                    <View key={guess}>
+                        <Text> {guess} </Text>
+                    </View>
+                ))}
+            </ScrollView>
         </View>
     );
 };
